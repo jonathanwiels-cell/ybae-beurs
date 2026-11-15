@@ -1,0 +1,136 @@
+// Vertalingen voor de quiz (NL is de basis in common.js)
+const INSTAGRAM_URL = "https://www.instagram.com/y.bae_you.before.anything.else/";
+const WEBSHOP_URL = "https://youbae.be";
+
+const UI = {
+  nl: {
+    title: "Ben jij een Y-bae fit?",
+    intro: "Broodjes en snacks die passen bij gasten met een dieetwens, en lekker voor iedereen.",
+    tags: ["Glutenvrij", "Vegan", "Koolhydraatarm", "Eiwitrijk", "Geen bewaarmiddelen"],
+    card: "<b>We geven 3 proefpakketten weg</b> met al onze smaken, aan zaken waar Y-bae echt bij past. Beantwoord een paar korte vragen en ontdek of jij erbij hoort.",
+    cardSmall: "Duurt ongeveer 1 minuut, gewoon aantikken.",
+    start: "Start", next: "Verder", back: "← Terug", question: "Vraag", of: "van", last: "Laatste stap",
+    multi: "Meerdere antwoorden mogen.", otherPh: "Naam van de groothandel",
+    almost: "Bijna klaar!", almostSub: "Zo kunnen we je contacteren als je geselecteerd bent.",
+    name: "Naam *", biz: "Naam van je zaak *", role: "Je functie *", choose: "Kies…", email: "E-mail", gsm: "Gsm",
+    consent: "Ik geef Y-bae toestemming om mij te contacteren over haar producten. Mijn gegevens worden niet doorgegeven aan anderen.",
+    send: "Verstuur", busy: "Bezig…",
+    eName: "Vul je naam in.", eBiz: "Vul de naam van je zaak in.", eRole: "Kies je functie.",
+    eContact: "Vul je e-mail of gsm in.", eMail: "Dit e-mailadres klopt niet.", eConsent: "Vink de toestemming aan om te versturen.",
+    eSend: "Versturen lukte niet. Probeer opnieuw of laat het weten aan de stand.",
+    thanks: "Bedankt",
+    donePart: "Leuk dat je Y-bae wil leren kennen. De proefpakketten gaan naar zaken, maar je kan ons volgen of meteen bestellen.",
+    doneB2b: "We bekijken alle antwoorden na de beurs en selecteren de <b>3 zaken</b> waar Y-bae het best bij past. Ben jij erbij, dan nemen we contact op om je proefpakket te bezorgen.",
+    doneTaste: "Kom zeker even proeven aan de stand en vraag naar Heidi.",
+    choosePrompt: "Blijf op de hoogte, kies wat jij wil:",
+    insta: "Volg ons op Instagram", shop: "Bekijk de webshop"
+  },
+  fr: {
+    title: "Y-bae est-il fait pour vous ?",
+    intro: "Des petits pains et snacks adaptés aux clients avec un régime particulier, et délicieux pour tous.",
+    tags: ["Sans gluten", "Vegan", "Pauvre en glucides", "Riche en protéines", "Sans conservateurs"],
+    card: "<b>Nous offrons 3 colis dégustation</b> avec toutes nos saveurs, aux établissements qui correspondent vraiment à Y-bae. Répondez à quelques questions et découvrez si vous en faites partie.",
+    cardSmall: "Environ 1 minute, il suffit de toucher.",
+    start: "Commencer", next: "Suivant", back: "← Retour", question: "Question", of: "sur", last: "Dernière étape",
+    multi: "Plusieurs réponses possibles.", otherPh: "Nom du grossiste",
+    almost: "Presque fini !", almostSub: "Pour pouvoir vous contacter si vous êtes sélectionné.",
+    name: "Nom *", biz: "Nom de votre établissement *", role: "Votre fonction *", choose: "Choisir…", email: "E-mail", gsm: "GSM",
+    consent: "J'autorise Y-bae à me contacter au sujet de ses produits. Mes données ne seront pas transmises à des tiers.",
+    send: "Envoyer", busy: "Envoi…",
+    eName: "Indiquez votre nom.", eBiz: "Indiquez le nom de votre établissement.", eRole: "Choisissez votre fonction.",
+    eContact: "Indiquez votre e-mail ou votre GSM.", eMail: "Cette adresse e-mail n'est pas correcte.", eConsent: "Cochez l'autorisation pour envoyer.",
+    eSend: "L'envoi n'a pas fonctionné. Réessayez ou prévenez-nous au stand.",
+    thanks: "Merci",
+    donePart: "Ravis que vous découvriez Y-bae. Les colis vont aux établissements, mais vous pouvez nous suivre ou commander directement.",
+    doneB2b: "Nous examinons toutes les réponses après le salon et sélectionnons les <b>3 établissements</b> qui correspondent le mieux à Y-bae. Si vous êtes sélectionné, nous vous contacterons pour livrer votre colis.",
+    doneTaste: "Venez goûter au stand et demandez Heidi.",
+    choosePrompt: "Restez informé, choisissez :",
+    insta: "Suivez-nous sur Instagram", shop: "Voir la boutique en ligne"
+  },
+  en: {
+    title: "Are you a Y-bae fit?",
+    intro: "Buns and snacks that suit guests with dietary needs, and taste great for everyone.",
+    tags: ["Gluten-free", "Vegan", "Low carb", "High protein", "No preservatives"],
+    card: "<b>We're giving away 3 tasting packs</b> with all our flavours, to businesses where Y-bae really fits. Answer a few short questions and find out if you're one of them.",
+    cardSmall: "Takes about 1 minute, just tap.",
+    start: "Start", next: "Next", back: "← Back", question: "Question", of: "of", last: "Last step",
+    multi: "You can pick more than one.", otherPh: "Name of the wholesaler",
+    almost: "Almost done!", almostSub: "So we can contact you if you're selected.",
+    name: "Name *", biz: "Business name *", role: "Your role *", choose: "Choose…", email: "Email", gsm: "Mobile",
+    consent: "I allow Y-bae to contact me about its products. My details will not be shared with others.",
+    send: "Send", busy: "Sending…",
+    eName: "Please enter your name.", eBiz: "Please enter your business name.", eRole: "Please choose your role.",
+    eContact: "Please enter your email or mobile.", eMail: "This email address doesn't look right.", eConsent: "Please tick the consent box to send.",
+    eSend: "Sending failed. Please try again or let us know at the stand.",
+    thanks: "Thank you",
+    donePart: "Great that you want to get to know Y-bae. The tasting packs go to businesses, but you can follow us or order right away.",
+    doneB2b: "We'll review all answers after the fair and select the <b>3 businesses</b> where Y-bae fits best. If you're one of them, we'll contact you to deliver your tasting pack.",
+    doneTaste: "Come and taste at the stand and ask for Heidi.",
+    choosePrompt: "Stay in touch, pick what you like:",
+    insta: "Follow us on Instagram", shop: "Visit the webshop"
+  }
+};
+
+// Vraagteksten en antwoordopties per taal: [vraag, {optie: label}]
+const QT = {
+  fr: {
+    type: ["Qu'est-ce qui vous décrit le mieux ?", { restaurant: "Restaurant / brasserie", hotel: "Hôtel / petit-déjeuner", cateraar: "Traiteur / événements", contract: "Restauration collective, soins ou institution", bakker: "Boulangerie", winkel: "Magasin / épicerie fine", groothandel: "Grossiste / distributeur", producent: "Producteur ou investisseur", particulier: "Particulier" }],
+    invloed: ["Qui décide des nouveaux produits chez vous ?", { beslis: "Je décide", mee: "Je codécide ou je conseille", door: "Je transmets à la personne qui décide", geen: "Je n'ai pas d'influence" }],
+    nood: ["À quelle fréquence vos clients demandent-ils du sans gluten, vegan ou pauvre en glucides ?", { nooit: "Jamais", maand: "Chaque mois", week: "Chaque semaine", dag: "Chaque jour" }],
+    h4: ["Que faites-vous quand un client demande du sans gluten ?", { weg: "On supprime le pain", al: "Nous avons déjà une option sans gluten", weetniet: "Je ne sais pas trop" }],
+    h5: ["Où achetez-vous votre pain ou vos surgelés ?", { zelf: "Fait maison", bakker: "Boulanger local", groothandel: "Grossiste" }],
+    h5b: ["Chez quel grossiste ?", { Andere: "Autre" }],
+    h5b_andere: ["Quel grossiste ?", {}],
+    h6: ["Combien de couverts ou petits-déjeuners servez-vous par semaine ?", { "<100": "Moins de 100", "100-300": "100 – 300", "300-1000": "300 – 1000", ">1000": "Plus de 1000" }],
+    c4: ["Combien d'événements ou de livraisons par mois ?", { "<5": "Moins de 5", "5-20": "5 – 20", ">20": "Plus de 20" }],
+    c5: ["Combien d'invités par événement ont un régime particulier ?", { bijnageen: "Presque aucun", paar: "Quelques-uns", veel: "Beaucoup" }],
+    c6: ["Où achetez-vous ?", { groothandel: "Grossiste", rechtstreeks: "Directement chez les producteurs", beide: "Les deux" }],
+    z4: ["Combien de sites desservez-vous ?", { "1": "1", "2-10": "2 – 10", ">10": "Plus de 10" }],
+    z5: ["Comment les nouveaux produits sont-ils choisis ?", { centraal: "Achat centralisé", locatie: "Par site", groothandel: "Via le grossiste" }],
+    z6: ["Avez-vous actuellement une alternative de pain sans gluten ?", { tevreden: "Oui, et nous sommes satisfaits", ontevreden: "Oui, mais pas satisfaits", nee: "Non" }],
+    b4: ["Vendez-vous déjà des produits sans gluten ou vegan ?", { nee: "Non", paar: "Quelques-uns", volledig: "Un assortiment complet" }],
+    b5: ["Avez-vous un comptoir surgelés ou cuisez-vous sur place ?", { diepvries: "Comptoir surgelés", afbakken: "Cuisson sur place", beide: "Les deux", geen: "Aucun des deux" }],
+    b6: ["Combien de points de vente avez-vous ?", { "1": "1", "2-5": "2 – 5", ">5": "Plus de 5" }],
+    g4: ["À qui livrez-vous surtout ?", { horeca: "Horeca", catering: "Traiteurs / soins", retail: "Commerce de détail", bio: "Magasins bio / vegan" }],
+    g5: ["Avez-vous du sans gluten ou vegan dans votre gamme ?", { nee: "Non", beperkt: "Limité", uitgebreid: "Large" }],
+    g6: ["Où livrez-vous ?", { gent: "Région de Gand", vlaanderen: "Flandre", belgie: "Belgique", benelux: "Benelux et au-delà" }],
+    p4: ["Qu'est-ce qui vous intéresse ?", { produceren: "Produire (marque blanche)", verdelen: "Distribuer", investeren: "Investir", overnemen: "Reprendre" }],
+    p5: ["Avez-vous de l'expérience en production sans gluten ?", { lijn: "Oui, une ligne séparée", beetje: "Un peu", nee: "Non" }],
+    p6: ["Quelle est la taille de votre organisation ?", { "<10": "Moins de 10 employés", "10-50": "10 – 50 employés", ">50": "Plus de 50 employés" }],
+    part: ["Où préféreriez-vous acheter Y-bae ?", { webshop: "Boutique en ligne", speciaalzaak: "Épicerie fine", supermarkt: "Supermarché", markt: "Au marché" }],
+    timing: ["Quand souhaitez-vous en parler ?", { week: "Cette semaine", maand: "Ce mois-ci", later: "Plus tard", info: "Je veux juste des infos" }],
+    functie: [null, { zaakvoerder: "Gérant / propriétaire", aankoper: "Acheteur", chef: "Chef / cuisine", medewerker: "Employé", andere: "Autre" }]
+  },
+  en: {
+    type: ["What describes you best?", { restaurant: "Restaurant / brasserie", hotel: "Hotel / breakfast venue", cateraar: "Caterer / events", contract: "Contract catering, care or institution", bakker: "Bakery", winkel: "Shop / delicatessen", groothandel: "Wholesaler / distributor", producent: "Producer or investor", particulier: "Private individual" }],
+    invloed: ["Who decides on new products at your place?", { beslis: "I decide", mee: "I co-decide or advise", door: "I pass it on to the decision maker", geen: "I have no influence" }],
+    nood: ["How often do your customers ask for gluten-free, vegan or low carb?", { nooit: "Never", maand: "Monthly", week: "Weekly", dag: "Daily" }],
+    h4: ["What do you do now when a guest asks for gluten-free?", { weg: "We leave out the bread", al: "We already have a gluten-free option", weetniet: "I'm not really sure" }],
+    h5: ["Where do you buy your bread or frozen products?", { zelf: "Baked in-house", bakker: "Local bakery", groothandel: "Wholesaler" }],
+    h5b: ["Which wholesaler?", { Andere: "Other" }],
+    h5b_andere: ["Which wholesaler?", {}],
+    h6: ["How many covers or breakfasts do you serve per week?", { "<100": "Fewer than 100", "100-300": "100 – 300", "300-1000": "300 – 1000", ">1000": "More than 1000" }],
+    c4: ["How many events or deliveries per month?", { "<5": "Fewer than 5", "5-20": "5 – 20", ">20": "More than 20" }],
+    c5: ["How many guests per event have dietary needs?", { bijnageen: "Hardly any", paar: "A few", veel: "Many" }],
+    c6: ["Where do you buy?", { groothandel: "Wholesaler", rechtstreeks: "Directly from producers", beide: "Both" }],
+    z4: ["How many locations do you serve?", { "1": "1", "2-10": "2 – 10", ">10": "More than 10" }],
+    z5: ["How are new products chosen?", { centraal: "Central purchasing", locatie: "Per location", groothandel: "Via the wholesaler" }],
+    z6: ["Do you currently have a gluten-free bread option?", { tevreden: "Yes, and we're happy with it", ontevreden: "Yes, but not happy with it", nee: "No" }],
+    b4: ["Do you already sell gluten-free or vegan products?", { nee: "No", paar: "A few", volledig: "A full range" }],
+    b5: ["Do you have a freezer counter or bake on site?", { diepvries: "Freezer counter", afbakken: "Bake on site", beide: "Both", geen: "Neither" }],
+    b6: ["How many outlets do you have?", { "1": "1", "2-5": "2 – 5", ">5": "More than 5" }],
+    g4: ["Who do you mainly supply?", { horeca: "Hospitality", catering: "Catering / care", retail: "Retail", bio: "Organic / vegan shops" }],
+    g5: ["Do you carry gluten-free or vegan products?", { nee: "No", beperkt: "Limited", uitgebreid: "Extensive" }],
+    g6: ["Where do you deliver?", { gent: "Ghent region", vlaanderen: "Flanders", belgie: "Belgium", benelux: "Benelux and beyond" }],
+    p4: ["What interests you?", { produceren: "Production (white label)", verdelen: "Distribution", investeren: "Investing", overnemen: "Acquisition" }],
+    p5: ["Do you have experience with gluten-free production?", { lijn: "Yes, a separate line", beetje: "A little", nee: "No" }],
+    p6: ["How big is your organisation?", { "<10": "Fewer than 10 employees", "10-50": "10 – 50 employees", ">50": "More than 50 employees" }],
+    part: ["Where would you prefer to buy Y-bae?", { webshop: "Webshop", speciaalzaak: "Specialty shop", supermarkt: "Supermarket", markt: "At the market" }],
+    timing: ["When would you like to talk further?", { week: "This week", maand: "This month", later: "Later", info: "I just want info" }],
+    functie: [null, { zaakvoerder: "Owner / manager", aankoper: "Buyer", chef: "Chef / kitchen", medewerker: "Employee", andere: "Other" }]
+  }
+};
+
+// Vertaalde vraagtekst en optielabel (valt terug op NL)
+function tq(lang, q) { const t = (QT[lang] || {})[q.id]; return (t && t[0]) || q.q; }
+function topt(lang, qid, key, nl) { const t = (QT[lang] || {})[qid]; return (t && t[1] && t[1][key]) || nl; }
