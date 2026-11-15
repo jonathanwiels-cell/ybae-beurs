@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Y-bae · Beursdashboard</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --green:#2f5d3a; --cream:#faf6ee; --ink:#1f2a22; --muted:#6b7a6e; --line:#e3dccd; --A:#2e7d32; --B:#c98a12; --C:#8a8f8b; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { margin:0; font-family:-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background:var(--cream); color:var(--ink); }
+  .wrap { max-width:760px; margin:0 auto; padding:14px 14px 80px; }
+  header { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .logo { font-weight:800; font-size:20px; color:var(--green); }
+  .sub { font-size:12px; color:var(--muted); }
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:12px 0; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px; text-align:center; }
+  .stat b { display:block; font-size:24px; }
+  .stat span { font-size:12px; color:var(--muted); }
+  .tabs { display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:8px; scrollbar-width:none; }
+  .tab { flex:none; border:1px solid var(--line); background:#fff; border-radius:20px; padding:9px 13px; font-size:14px; cursor:pointer; white-space:nowrap; }
+  .tab.on { background:var(--green); color:#fff; border-color:var(--green); }
+  .lead { background:#fff; border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:8px; display:flex; gap:12px; align-items:center; cursor:pointer; }
+  .lbl { flex:none; width:38px; height:38px; border-radius:10px; color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .lbl.A { background:var(--A); } .lbl.B { background:var(--B); } .lbl.C { background:var(--C); }
+  .lead .m { flex:1; min-width:0; }
+  .lead .n { font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .lead .d { font-size:13px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sc { flex:none; text-align:right; font-size:13px; color:var(--muted); }
+  .sc b { display:block; font-size:20px; color:var(--ink); }
+  .grp { font-weight:800; margin:16px 0 8px; display:flex; justify-content:space-between; }
+  .grp span { background:var(--green); color:#fff; border-radius:10px; padding:1px 9px; font-size:14px; }
+  .empty { color:var(--muted); text-align:center; padding:30px 10px; }
+  .login { max-width:340px; margin:18vh auto 0; text-align:center; }
+  input, select, textarea { width:100%; font-size:16px; padding:12px; border:2px solid var(--line); border-radius:10px; background:#fff; color:var(--ink); font-family:inherit; }
+  .btn { border:0; border-radius:12px; padding:13px 16px; font-size:16px; font-weight:700; background:var(--green); color:#fff; cursor:pointer; }
+  .btn.w { width:100%; margin-top:10px; }
+  .btn.ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .btn.red { background:#fff; color:#b3261e; border:1px solid #e8c2bf; }
+  .sheet { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; align-items:flex-end; justify-content:center; z-index:10; }
+  .sheet.on { display:flex; }
+  .panel { background:var(--cream); width:100%; max-width:760px; max-height:92vh; overflow:auto; border-radius:18px 18px 0 0; padding:18px 16px 30px; }
+  .kv { display:grid; grid-template-columns:42% 58%; gap:6px 10px; font-size:14px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px; margin:10px 0; }
+  .kv div:nth-child(odd) { color:var(--muted); }
+  .row { display:flex; gap:8px; margin-bottom:10px; }
+  .row > * { flex:1; }
+  label.f { font-size:13px; font-weight:600; color:var(--muted); display:block; margin:8px 0 3px; }
+  .chk { display:flex; align-items:center; gap:10px; font-size:16px; margin:12px 0; }
+  .chk input { width:24px; height:24px; }
+  .parts { font-size:13px; color:var(--muted); }
+  .msg { font-size:13px; color:var(--muted); min-height:18px; margin-top:6px; }
+  a { color:var(--green); }
+</style>
+</head>
+<body>
+<div class="wrap" id="root"></div>
+
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+
+<script src="common.js"></script>
+<script>
+let PIN = null;
+try { PIN = localStorage.getItem("ybae_pin"); } catch (e) {}
+let LEADS = [];
+let TAB = "nieuw";
+const root = document.getElementById("root");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+
+function showLogin(msg) {
+  root.innerHTML = `<div class="login"><div class="logo" style="font-size:28px">Y-bae</div><p class="sub">Beursdashboard · alleen voor Heidi en Jonathan</p>
+    <input id="pin" type="password" inputmode="numeric" placeholder="Pincode" autofocus>
+    <button class="btn w" id="go">Open</button><div class="msg" style="color:#b3261e">${esc(msg || "")}</div></div>`;
+  const tryIt = async () => { PIN = document.getElementById("pin").value.trim(); await load(true); };
+  document.getElementById("go").onclick = tryIt;
+  document.getElementById("pin").onkeydown = e => { if (e.key === "Enter") tryIt(); };
+}
+
+async function load(fromLogin) {
+  try {
+    LEADS = await rpc("ybae_get_leads", { p_pin: PIN }) || [];
+    try { localStorage.setItem("ybae_pin", PIN); } catch (e) {}
+    LEADS.forEach(l => { l.p = scoreParts({ ...l.answers }); l.label = labelFor(l.answers, l.label_manueel); });
+    renderMain();
+  } catch (e) {
+    if (fromLogin || /pin/i.test(e.message)) { try { localStorage.removeItem("ybae_pin"); } catch (x) {} showLogin("Verkeerde pincode."); }
+  }
+}
+
+const TABS = [
+  ["nieuw", "⚡ Net binnen"], ["a", "🎯 A-leads"], ["pakket", "🎁 Pakketten"],
+  ["gh", "🏪 Per groothandel"], ["opv", "📞 Opvolging"], ["part", "👥 Particulieren"]
+];
+
+function leadRow(l) {
+  const t = TYPES[l.answers.type] || "";
+  const sub = [l.zaak, t, optLabel("functie", l.answers.functie)].filter(Boolean).join(" · ");
+  const extra = l.pakket ? " 🎁" : "";
+  return `<div class="lead" data-id="${l.id}"><div class="lbl ${l.label}">${l.label}</div>
+    <div class="m"><div class="n">${esc(l.naam)}${extra}</div><div class="d">${esc(sub)}</div>
+    ${l.notitie ? `<div class="d">📝 ${esc(l.notitie)}</div>` : ""}</div>
+    <div class="sc"><b>${l.p.score}</b>${new Date(l.created_at).toLocaleTimeString("nl-BE", { hour:"2-digit", minute:"2-digit" })}</div></div>`;
+}
+
+function renderMain() {
+  const b2b = LEADS.filter(l => l.answers.type !== "particulier");
+  const nA = LEADS.filter(l => l.label === "A").length, nB = LEADS.filter(l => l.label === "B").length;
+  const nP = LEADS.filter(l => l.pakket).length;
+  let body = "";
+  const byScore = arr => [...arr].sort((x, y) => y.p.score - x.p.score);
+  if (TAB === "nieuw") body = LEADS.map(leadRow).join("");
+  if (TAB === "a") body = byScore(LEADS.filter(l => l.label === "A")).map(leadRow).join("");
+  if (TAB === "pakket") body = `<p class="sub">Top op score. Tik een lead open en vink "Pakket toegekend" aan. Toegekend: ${nP} van 3.</p>` + byScore(b2b).map(leadRow).join("");
+  if (TAB === "gh") {
+    const g = {};
+    b2b.forEach(l => { const k = l.answers.h5b === "Andere" ? (l.answers.h5b_andere ? "Andere: " + l.answers.h5b_andere : "Andere") : l.answers.h5b; if (k && (l.answers.h5 || []).includes("groothandel")) (g[k] = g[k] || []).push(l); });
+    const keys = Object.keys(g).sort((a, b) => g[b].length - g[a].length);
+    body = `<p class="sub">Welke groothandel gebruiken de horecazaken? Dit is je argument bij die groothandel.</p>` +
+      (keys.length ? keys.map(k => `<div class="grp">${esc(k)} <span>${g[k].length}</span></div>` + g[k].map(leadRow).join("")).join("") : "");
+  }
+  if (TAB === "opv") {
+    body = ["Nieuw", "Gecontacteerd", "Afspraak", "Klant", "Geen interesse"].map(s => {
+      const arr = byScore(b2b.filter(l => (l.status || "Nieuw") === s));
+      return `<div class="grp">${s} <span>${arr.length}</span></div>` + arr.map(leadRow).join("");
+    }).join("");
+  }
+  if (TAB === "part") body = LEADS.filter(l => l.answers.type === "particulier").map(leadRow).join("");
+  if (!body || body.endsWith("</p>")) body += `<div class="empty">Nog niets hier.</div>`;
+
+  root.innerHTML = `<header><div><div class="logo">Y-bae · Beurs</div><div class="sub">Ververst automatisch · ${new Date().toLocaleTimeString("nl-BE", { hour:"2-digit", minute:"2-digit" })}</div></div>
+      <button class="btn ghost" id="rf">↻</button></header>
+    <div class="stats"><div class="stat"><b>${LEADS.length}</b><span>scans</span></div><div class="stat"><b style="color:var(--A)">${nA}</b><span>A-leads</span></div>
+      <div class="stat"><b style="color:var(--B)">${nB}</b><span>B-leads</span></div><div class="stat"><b>${nP}/3</b><span>pakketten</span></div></div>
+    <div class="tabs">${TABS.map(t => `<div class="tab ${TAB === t[0] ? "on" : ""}" data-t="${t[0]}">${t[1]}</div>`).join("")}</div>
+    <div>${body}</div>`;
+  root.querySelectorAll(".tab").forEach(t => t.onclick = () => { TAB = t.dataset.t; renderMain(); });
+  root.querySelectorAll(".lead").forEach(r => r.onclick = () => openLead(r.dataset.id));
+  document.getElementById("rf").onclick = () => load();
+}
+
+function openLead(id) {
+  const l = LEADS.find(x => x.id === id); if (!l) return;
+  const a = l.answers;
+  const rows = [["Type", TYPES[a.type]], ["Functie", optLabel("functie", a.functie)]];
+  QUESTIONS.forEach(q => { if (q.id !== "type" && a[q.id] !== undefined && a[q.id] !== "" && !(Array.isArray(a[q.id]) && !a[q.id].length)) rows.push([q.label, q.text ? a[q.id] : optLabel(q.id, a[q.id])]); });
+  const p = l.p;
+  const sel = (id, opts, v) => `<select id="${id}">${opts.map(o => `<option value="${o[0]}" ${String(v ?? "") === o[0] ? "selected" : ""}>${o[1]}</option>`).join("")}</select>`;
+  document.getElementById("panel").innerHTML = `
+    <div style="display:flex;gap:12px;align-items:center"><div class="lbl ${l.label}">${l.label}</div>
+      <div style="flex:1"><div style="font-weight:800;font-size:19px">${esc(l.naam)}</div><div class="sub">${esc(l.zaak || "")}</div></div>
+      <button class="btn ghost" onclick="closeSheet()">✕</button></div>
+    <div class="parts" style="margin-top:8px">Score <b>${p.score}</b> = organisatie ${p.org} × invloed ${p.invloed} + vraag ${p.nood} + timing ${p.timing} + bonus ${p.bonus}</div>
+    <div class="kv">
+      ${l.gsm ? `<div>Gsm</div><div><a href="tel:${esc(l.gsm)}">${esc(l.gsm)}</a></div>` : ""}
+      ${l.email ? `<div>E-mail</div><div><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></div>` : ""}
+      ${rows.map(r => `<div>${esc(r[0])}</div><div>${esc(r[1])}</div>`).join("")}
+      <div>Binnengekomen</div><div>${new Date(l.created_at).toLocaleString("nl-BE")}</div>
+    </div>
+    <label class="f">Notitie (bv. wie beslist, wat afgesproken)</label><textarea id="e_not" rows="3">${esc(l.notitie || "")}</textarea>
+    <div class="row"><div><label class="f">Opvolger</label>${sel("e_opv", [["", "–"], ["Heidi", "Heidi"], ["Jonathan", "Jonathan"]], l.opvolger)}</div>
+      <div><label class="f">Status</label>${sel("e_sta", ["Nieuw", "Gecontacteerd", "Afspraak", "Klant", "Geen interesse"].map(s => [s, s]), l.status)}</div></div>
+    <div class="row"><div><label class="f">Label manueel</label>${sel("e_lab", [["", "Automatisch"], ["A", "A"], ["B", "B"], ["C", "C"]], l.label_manueel)}</div>
+      <div><label class="f">Volgende stap</label><input type="date" id="e_dat" value="${esc(l.volgende_stap || "")}"></div></div>
+    <label class="chk"><input type="checkbox" id="e_pak" ${l.pakket ? "checked" : ""}> 🎁 Pakket toegekend</label>
+    <button class="btn w" id="save">Opslaan</button>
+    <div class="msg" id="smsg"></div>
+    <button class="btn red w" id="del" style="margin-top:24px">Verwijder deze lead</button>`;
+  document.getElementById("sheet").classList.add("on");
+  document.getElementById("save").onclick = async () => {
+    const patch = { notitie: document.getElementById("e_not").value, opvolger: document.getElementById("e_opv").value || null,
+      status: document.getElementById("e_sta").value, label_manueel: document.getElementById("e_lab").value,
+      volgende_stap: document.getElementById("e_dat").value, pakket: document.getElementById("e_pak").checked };
+    const m = document.getElementById("smsg"); m.textContent = "Opslaan…";
+    try { await rpc("ybae_update_lead", { p_pin: PIN, p_id: id, p_patch: patch }); closeSheet(); load(); }
+    catch (e) { m.textContent = "Opslaan mislukt: " + e.message; }
+  };
+  document.getElementById("del").onclick = async () => {
+    if (!document.getElementById("del").dataset.sure) { document.getElementById("del").dataset.sure = 1; document.getElementById("del").textContent = "Tik nog eens om echt te verwijderen"; return; }
+    try { await rpc("ybae_delete_lead", { p_pin: PIN, p_id: id }); closeSheet(); load(); } catch (e) { document.getElementById("smsg").textContent = "Verwijderen mislukt."; }
+  };
+}
+function closeSheet() { document.getElementById("sheet").classList.remove("on"); }
+document.getElementById("sheet").onclick = e => { if (e.target.id === "sheet") closeSheet(); };
+
+if (PIN) load(); else showLogin();
+setInterval(() => { if (PIN && !document.getElementById("sheet").classList.contains("on")) load(); }, 20000);
+</script>
+</body>
+</html>
